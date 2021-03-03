@@ -1,0 +1,17 @@
+name: "driftctl-action"
+author: "CloudSkiff"
+description: "Run driftctl in your GitHub Actions workflow."
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+inputs:
+  version:
+    description: "The version of driftctl to install."
+    required: false
+    default: "latest"
+
+branding:
+  icon: "cloud"
+  color: "blue"
