@@ -9,7 +9,7 @@ install_driftctl() {
   echo "Installing dctlenv"
   git clone --depth 1 --branch v0.1.3 https://github.com/wbeuil/dctlenv ~/.dctlenv
   export PATH="$HOME/.dctlenv/bin:$PATH"
-  gpg --import cloudskiff_pubkey.pem
+  gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys 0xACC776A79C824EBD
 
   echo "Downloading driftctl:$version"
   DCTLENV_PGP=1 dctlenv use $version
