@@ -24,11 +24,25 @@ parse_inputs() {
   fi
 }
 
+quiet_flag() {
+  case "${version/v/}" in
+    "0.1.0"|"0.1.1"|"0.2.0"|"0.2.1"|"0.2.2"|"0.2.3"|"0.3.0"|"0.3.1"|"0.4.0"|"0.5.0"|"0.6.0")
+      ;;
+    *)
+      qflag="--quiet"
+      ;;
+  esac
+}
+
 # First we need to parse inputs
 parse_inputs
 
 # Then we install the requested driftctl binary
 install_driftctl
 
+# We check if the version of driftctl needs the quiet flag
+qflag=""
+quiet_flag
+
 # Finally we run the scan command
-driftctl scan
+driftctl scan $qflag
