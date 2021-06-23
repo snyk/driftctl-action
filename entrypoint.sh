@@ -7,7 +7,7 @@ log_error() {
 
 install_driftctl() {
   echo "Installing dctlenv"
-  git clone --depth 1 --branch v0.1.4 https://github.com/wbeuil/dctlenv ~/.dctlenv
+  git clone --depth 1 --branch v0.1.6 https://github.com/wbeuil/dctlenv ~/.dctlenv
   export PATH="$HOME/.dctlenv/bin:$PATH"
   gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys 0xACC776A79C824EBD
 
