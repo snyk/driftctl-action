@@ -9,10 +9,14 @@ install_driftctl() {
   echo "Installing dctlenv"
   git clone --depth 1 --branch v0.1.6 https://github.com/wbeuil/dctlenv ~/.dctlenv
   export PATH="$HOME/.dctlenv/bin:$PATH"
-  gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xACC776A79C824EBD
 
   echo "Downloading driftctl:$version"
-  DCTLENV_PGP=1 DCTLENV_CURL=1 dctlenv use $version
+  if version_le "${version/v/}" "0.9.1"; then
+    DCTLENV_CURL=1 dctlenv use $version
+  else
+    gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xACC776A79C824EBD
+    DCTLENV_PGP=1 DCTLENV_CURL=1 dctlenv use $version
+  fi
 }
 
 parse_inputs() {
@@ -25,13 +29,14 @@ parse_inputs() {
 }
 
 quiet_flag() {
-  case "${version/v/}" in
-    "0.1.0"|"0.1.1"|"0.2.0"|"0.2.1"|"0.2.2"|"0.2.3"|"0.3.0"|"0.3.1"|"0.4.0"|"0.5.0"|"0.6.0")
-      ;;
-    *)
-      qflag="--quiet"
-      ;;
-  esac
+  if version_le "${version/v/}" "0.6.0"; then
+    return
+  fi
+  qflag="--quiet"
+}
+
+version_le() {
+  [ "$1" = "`echo -e "$1\n$2" | sort -V | head -n 1`" ]
 }
 
 # First we need to parse inputs
