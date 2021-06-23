@@ -38,7 +38,7 @@ quiet_flag() {
 parse_inputs
 
 # Then we install the requested driftctl binary
-install_driftctl
+install_driftctl || log_error "Fail to install driftctl"
 
 # We check if the version of driftctl needs the quiet flag
 qflag=""
