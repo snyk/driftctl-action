@@ -62,6 +62,7 @@ quiet_flag
 
 export AWS_ACCESS_KEY_ID=$INPUT_AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$INPUT_AWS_SECRET_ACCESS_KEY
+export AWS_REGION=$INPUT_AWS_REGION
 
 # Finally we run the scan command
 summary=$(driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://stdout | jq .summary)

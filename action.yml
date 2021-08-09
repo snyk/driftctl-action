@@ -37,6 +37,9 @@ inputs:
   aws_secret_access_key:
     description: "aws secret access key"
     required: true
+  aws_region:
+    description: "aws region used"
+    required: true
   env:
     description: "Staging"
     required: true
