@@ -67,6 +67,6 @@ export AWS_REGION=$INPUT_AWS_REGION
 # Finally we run the scan command
 summary=$(driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://stdout | jq .summary)
 echo $summary > summary.json
-ls
+path=$(readlink -f summary.json)
 
-./new-relic-report summary.json
+/.new-relic-report $path
