@@ -1,28 +1,24 @@
-# GitHub Action for driftctl
+# GitHub Action to postpone on NewRelic Driftctl summary
 
-`driftctl-action` runs a full driftctl scan in your GitHub Actions workflow.
+`driftctl-newrelic-action` runs a full driftctl scan in your GitHub Actions workflow and create a custom event on Newrelic based on summary output
 
-## Inputs
+## Input 
 
-### `version`
-
-The version of driftctl to install. Default to `latest`.
-
-## Example usage
-
-```yml
-name: Test Workflow
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Run driftctl
-        uses: cloudskiff/driftctl-action@v1
-        with:
-          version: 0.6.0
+| Input                                             | Description                                        |
+|------------------------------------------------------|-----------------------------------------------|
+| `new_relic_licence_key`  | {{ SECRET.NEW_RELIC_API_KEY}}    |
+| `version`   | driftctl version    |
+| `env`   | custom event type name    |
+| `filter`   | Is filter is required  (true/false)  |
+| `tag_key`   | filter is based on a value from tag key    |
+| `tag_value`   | custom event type name    |
+| `new_relic_licence_key`   | New Relic Licence key    |
+| `event_type_name`   | DriftDeployEvent by default    |
+| `tfstate_s3_path`   | s3 tfstate path    |
+| `aws_access_key_id`   | AWS access key    |
+| `aws_secret_access_key`   | AWS Secret Access Key    |
+| `aws_region`   | AWS region    |
+| `env`   | environment    |
+| `github_repository`   | "{{ github.repository}}"    |
+| `github_run_id`   | "{{ github.run_id }}"    |
 ```
