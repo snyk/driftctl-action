@@ -12,10 +12,10 @@ FROM alpine:3.12.4
 
 RUN apk add --update --no-cache curl git bash gnupg jq
 
-COPY --from=builder /app/app /new-relic-report
-
 COPY . .
 
+COPY --from=builder /app/app /new-relic-report
+RUN ls
 RUN chmod +x /entrypoint.sh
 RUN chmod +x /new-relic-report
 
