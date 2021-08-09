@@ -21,4 +21,34 @@
 | `env`   | environment    |
 | `github_repository`   | "{{ github.repository}}"    |
 | `github_run_id`   | "{{ github.run_id }}"    |
+
+## output 
+
+| Output                                             | Description                                        |
+|------------------------------------------------------|-----------------------------------------------|
+| `total_resources`  | driftctl total resources output    |
+| `total_changed`   | driftctl total changed resources output    |
+| `total_unmanaged`   | driftctl total unmanaged resources output    |
+| `total_managed`   | driftctl total managed resources output  |
+| `total_missing`   | driftctl total missing resources output  |
+
+## Example workflow
+
+
+```yaml
+      - name: check drift and report on newrelic
+        uses: maathor/driftctl-newrelic-action@main
+        with:
+          aws_access_key_id: ${{ secrets.TERRAFORM_BETA_ADS_AWS_ACCESS_KEY }}
+          aws_secret_access_key: ${{ secrets.TERRAFORM_BETA_ADS_AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-1
+          filter: "true"
+          tag_key: "SubDomain"
+          tag_value: "Ads"
+          tfstate_s3_path: "XXXXXX-beta-tf-state/terraform/xxxxxxxxx.tfstate"
+          env: beta
+          new_relic_licence_key: ${{ secrets.NEW_RELIC_LICENCE_KEY }}
+          github_repository: ${{ github.repository }}
+          github_run_id: ${{ github.run_id }}
+
 ```

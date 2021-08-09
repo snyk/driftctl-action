@@ -50,7 +50,17 @@ inputs:
   github_run_id:
     description: "{{ github.run_id }}"
     required: true
-
+outputs:
+  total_resources:
+    description: "driftctl total resources output"
+  total_changed:
+    description: "driftctl total changed resources output"
+  total_unmanaged:
+    description: "driftctl total unmanaged resources output"
+  total_managed:
+    description: "driftctl total managed resources output"
+  total_missing:
+    description: "driftctl total missing resources output"
 branding:
   icon: "cloud"
   color: "blue"

@@ -1,13 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/newrelic/go-agent"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
-	"encoding/json"
 )
 
 var newRelicApp newrelic.Application
@@ -44,6 +44,11 @@ func main() {
 	}
 	app.Shutdown(5 * time.Second)
 
+	fmt.Println(fmt.Sprintf(`::set-output name=total_resources::%s`, summary.TotalResources))
+	fmt.Println(fmt.Sprintf(`::set-output name=total_changed::%s`, summary.TotalChanged))
+	fmt.Println(fmt.Sprintf(`::set-output name=total_unmanaged::%s`, summary.TotalUnmanaged))
+	fmt.Println(fmt.Sprintf(`::set-output name=total_managed::%s`, summary.TotalManaged))
+	fmt.Println(fmt.Sprintf(`::set-output name=total_missing::%s`, summary.TotalMissing))
 }
 
 func parseSummaryDrifctlOutput(fileName string) DrifctlSummary {
