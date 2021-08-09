@@ -28,6 +28,15 @@ inputs:
     description: "New Relic CustomEvent Name"
     required: false
     default: "DriftDeployEvent"
+  tfstate_s3_path:
+    description: "s3 tfstate location"
+    required: true
+  aws_access_key_id:
+    description: "aws access key id"
+    required: true
+  aws_secret_access_key:
+    description: "aws secret access key"
+    required: true
   env:
     description: "Staging"
     required: true
