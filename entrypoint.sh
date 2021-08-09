@@ -33,7 +33,7 @@ parse_inputs() {
     if [ "$INPUT_TAG_VALUE" = "" ]; then
       log_error "When Filter option is active, tag_value cannot be empty"
     fi
-    filter="--deep --filter \"Attr.tags.$INPUT_TAG_KEY==$INPUT_TAG_VALUE\""
+    filter="--deep --filter \"Attr.tags.$INPUT_TAG_KEY=='$INPUT_TAG_VALUE'\""
   else
     filter=""
   fi
@@ -65,7 +65,11 @@ export AWS_SECRET_ACCESS_KEY=$INPUT_AWS_SECRET_ACCESS_KEY
 export AWS_REGION=$INPUT_AWS_REGION
 
 # Finally we run the scan command
-summary=$(driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://stdout | jq .summary)
+driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://result.json
+# print the result json
+cat result.json | jq
+# get the summary
+summary=$(cat result.json | jq .summary)
 echo $summary > summary.json
 path=$(readlink -f summary.json)
 
