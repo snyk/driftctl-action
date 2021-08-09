@@ -26,6 +26,17 @@ parse_inputs() {
   else
     log_error "Input version cannot be empty"
   fi
+  if [ "$INPUT_FILTER" != "false" ]; then
+    if [ "$INPUT_TAG_KEY" = "" ]; then
+      log_error "When Filter option is active, tag_key cannot be empty"
+    fi
+    if [ "$INPUT_TAG_VALUE" = "" ]; then
+      log_error "When Filter option is active, tag_value cannot be empty"
+    fi
+    filter="--deep --filter \"Attr.tags.$INPUT_TAG_KEY==$INPUT_TAG_VALUE\""
+  else
+    filter=""
+  fi
 }
 
 quiet_flag() {
@@ -50,4 +61,7 @@ qflag=""
 quiet_flag
 
 # Finally we run the scan command
-driftctl scan $qflag
+summary=$(driftctl scan $qflag $filter --output json://stdout | jq .summary)
+echo $summary > summary.json
+
+./app summary.json

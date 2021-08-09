@@ -11,6 +11,33 @@ inputs:
     description: "The version of driftctl to install."
     required: false
     default: "latest"
+  filter:
+    description: "Is filter is required"
+    required: false
+    default: "false"
+  tag_key:
+    description: "Tag key to filter on"
+    required: false
+  tag_value:
+    description: "Tag Value to filter on"
+    required: false
+  new_relic_licence_key:
+    description: "New Relic licence KEY"
+    required: true
+  event_type_name:
+    description: "New Relic CustomEvent Name"
+    required: false
+    default: "DriftDeployEvent"
+  env:
+    description: "Staging"
+    required: true
+    default: "prod"
+  github_repository:
+    description: "{{ github.repository}}"
+    required: true
+  github_run_id:
+    description: "{{ github.run_id }}"
+    required: true
 
 branding:
   icon: "cloud"

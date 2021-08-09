@@ -1,4 +1,4 @@
-name: Test driftctl-action
+name: Integration Test
 
 on:
   push:
@@ -13,33 +13,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run driftctl
-        uses: ./
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-          DCTL_NO_VERSION_CHECK: true
-          DCTL_FROM: "tfstate://tests/terraform.tfstate"
-          DCTL_FILTER: "Type=='unknown_type'" # Makes driftctl to exit 0 each time
-
-  test-matrix:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [0.5.0, 0.9.0, 0.10.0, latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Run driftctl
-        uses: ./
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-          DCTL_NO_VERSION_CHECK: true
-          DCTL_FROM: "tfstate://tests/terraform.tfstate"
-          DCTL_FILTER: "Type=='unknown_type'" # Makes driftctl to exit 0 each time
-        with:
-          version: ${{ matrix.version }}
+      - uses: maathor/terraform-new-relic-event-action@master
