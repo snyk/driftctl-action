@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -o xtrace
 log_error() {
   echo $1
   exit 1
@@ -66,7 +66,6 @@ export AWS_REGION=$INPUT_AWS_REGION
 
 # Finally we run the scan command
 driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://result.json
-echo "!!"
 # print the result json
 cat result.json | jq
 # get the summary

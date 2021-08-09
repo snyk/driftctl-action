@@ -15,7 +15,7 @@ RUN apk add --update --no-cache curl git bash gnupg jq
 COPY . .
 
 COPY --from=builder /app/app /new-relic-report
-RUN ls
+
 RUN chmod +x /entrypoint.sh
 RUN chmod +x /new-relic-report
 
