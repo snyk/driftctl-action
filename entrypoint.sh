@@ -69,4 +69,4 @@ summary=$(driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filte
 echo $summary > summary.json
 path=$(readlink -f summary.json)
 
-/.new-relic-report $path
+/./new-relic-report $path
