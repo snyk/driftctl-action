@@ -1,5 +1,5 @@
 #!/bin/sh
-set -o xtrace
+
 log_error() {
   echo $1
   exit 1
@@ -33,9 +33,6 @@ parse_inputs() {
     if [ "$INPUT_TAG_VALUE" = "" ]; then
       log_error "When Filter option is active, tag_value cannot be empty"
     fi
-    filter="--deep --filter \"Attr.tags.$INPUT_TAG_KEY=='$INPUT_TAG_VALUE'\""
-  else
-    filter=""
   fi
 }
 
@@ -52,7 +49,6 @@ version_le() {
 
 # First we need to parse inputs
 parse_inputs
-
 # Then we install the requested driftctl binary
 install_driftctl || log_error "Fail to install driftctl"
 
@@ -65,8 +61,13 @@ export AWS_SECRET_ACCESS_KEY=$INPUT_AWS_SECRET_ACCESS_KEY
 export AWS_REGION=$INPUT_AWS_REGION
 
 # Finally we run the scan command
-driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH $filter --output json://result.json
-# print the result json
+if [ "$INPUT_FILTER" != "false" ]; then
+  driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH --deep --filter Attr.tags.${INPUT_TAG_KEY}==\"${INPUT_TAG_VALUE}\" --output json://result.json
+else
+  driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH --output json://result.json
+fi
+
+# pretty print the result json
 cat result.json | jq
 # get the summary
 summary=$(cat result.json | jq .summary)
