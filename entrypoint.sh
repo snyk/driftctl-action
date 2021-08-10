@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 log_error() {
   echo $1
@@ -33,6 +33,7 @@ parse_inputs() {
     if [ "$INPUT_TAG_VALUE" = "" ]; then
       log_error "When Filter option is active, tag_value cannot be empty"
     fi
+    FILTER_ARGS="Attr.tags.$INPUT_TAG_KEY=='$INPUT_TAG_VALUE'"
   fi
 }
 
@@ -62,7 +63,7 @@ export AWS_REGION=$INPUT_AWS_REGION
 
 # Finally we run the scan command
 if [ "$INPUT_FILTER" != "false" ]; then
-  driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH --deep --filter Attr.tags.${INPUT_TAG_KEY}==\"${INPUT_TAG_VALUE}\" --output json://result.json
+  driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH --deep --filter $FILTER_ARGS --output json://result.json
 else
   driftctl scan $qflag --from tfstate+s3://$INPUT_TFSTATE_S3_PATH --output json://result.json
 fi
