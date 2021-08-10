@@ -1,5 +1,5 @@
-name: "driftctl-action"
-author: "CloudSkiff"
+name: "driftctl-newlic-action"
+author: "Maathor based on CloudSkiff"
 description: "Run driftctl in your GitHub Actions workflow."
 
 runs:
@@ -62,5 +62,5 @@ outputs:
   total_missing:
     description: "driftctl total missing resources output"
 branding:
-  icon: "cloud"
+  icon: "activity"
   color: "blue"
