@@ -1,6 +1,6 @@
 name: "driftctl-newlic-action"
 author: "Maathor based on CloudSkiff"
-description: "Run driftctl in your GitHub Actions workflow."
+description: "Run driftctl in your GitHub Actions workflow and postpone the summary to NewRelic"
 
 runs:
   using: "docker"
