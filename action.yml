@@ -1,5 +1,5 @@
 name: "driftctl-action"
-author: "CloudSkiff"
+author: "Snyk"
 description: "Run driftctl in your GitHub Actions workflow."
 
 runs:

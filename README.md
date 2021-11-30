@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run driftctl
-        uses: cloudskiff/driftctl-action@v1
+        uses: snyk/driftctl-action@v1
         with:
           version: 0.6.0
 ```
