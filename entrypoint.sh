@@ -7,16 +7,13 @@ log_error() {
 
 install_driftctl() {
   echo "Installing dctlenv"
-  git clone --depth 1 --branch v0.1.7 https://github.com/wbeuil/dctlenv ~/.dctlenv
+  git clone --depth 1 --branch v0.1.8 https://github.com/wbeuil/dctlenv ~/.dctlenv
   export PATH="$HOME/.dctlenv/bin:$PATH"
 
+  gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xACC776A79C824EBD
+
   echo "Downloading driftctl:$version"
-  if version_le "${version/v/}" "0.9.1"; then
-    DCTLENV_CURL=1 dctlenv use $version
-  else
-    gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xACC776A79C824EBD
-    DCTLENV_PGP=1 DCTLENV_CURL=1 dctlenv use $version
-  fi
+  DCTLENV_CURL=1 dctlenv use $version
 }
 
 parse_inputs() {
