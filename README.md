@@ -8,6 +8,10 @@
 
 The version of driftctl to install. Default to `latest`.
 
+### `args`
+
+A single string containing any additional arguments or flags to supply to the `scan` command. Defaults to an empty string.
+
 ## Example usage
 
 ```yml
