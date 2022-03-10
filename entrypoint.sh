@@ -36,8 +36,6 @@ version_le() {
   [ "$1" = "`echo -e "$1\n$2" | sort -V | head -n 1`" ]
 }
 
-echo $INPUT_ARGS
-
 # First we need to parse inputs
 parse_inputs
 
@@ -49,4 +47,5 @@ qflag=""
 quiet_flag
 
 # Finally we run the scan command
-driftctl scan $qflag $INPUT_ARGS
+# driftctl scan $qflag $INPUT_ARGS
+echo driftctl scan $qflag $INPUT_ARGS
