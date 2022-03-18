@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  pull_request_target:
     branches:
       - main
 
@@ -18,15 +18,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: [approve]
+    environment:
+      name: AWS creds
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # Check out the code of the PR
       - name: Run driftctl
         uses: ./
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           DCTL_NO_VERSION_CHECK: true
           DCTL_FROM: "tfstate://tests/terraform.tfstate"
@@ -36,18 +37,19 @@ jobs:
   test-matrix:
     runs-on: ubuntu-latest
     needs: [approve]
+    environment:
+      name: AWS creds
     strategy:
       matrix:
         version: [0.5.0, 0.9.0, 0.10.0, latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # Check out the code of the PR
       - name: Run driftctl
         uses: ./
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           DCTL_NO_VERSION_CHECK: true
           DCTL_FROM: "tfstate://tests/terraform.tfstate"
