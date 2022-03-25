@@ -47,4 +47,4 @@ qflag=""
 quiet_flag
 
 # Finally we run the scan command
-driftctl scan $qflag
+driftctl scan $qflag $INPUT_ARGS

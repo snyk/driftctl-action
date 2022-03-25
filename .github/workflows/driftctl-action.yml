@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  test-basic:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,6 +23,25 @@ jobs:
           DCTL_FROM: "tfstate://tests/terraform.tfstate"
           DCTL_DRIFTIGNORE: "tests/.driftignore"
           DCTL_FILTER: "Type=='unknown_type'" # Makes driftctl to exit 0 each time
+
+  test-args:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run driftctl
+        uses: ./
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+        with:
+          args: |
+            --no-version-check
+            --from tfstate://tests/terraform.tfstate
+            --driftignore tests/.driftignore
+            --filter Type=='unknown_type'
 
   test-matrix:
     runs-on: ubuntu-latest
