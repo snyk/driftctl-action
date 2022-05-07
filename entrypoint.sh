@@ -50,7 +50,7 @@ quiet_flag
 driftctl=$(driftctl scan $qflag $INPUT_ARGS)
 
 # Set output to be used for other Github Actions jobs
-echo ::set-output name=driftct::$driftctl
+echo "::set-output name=driftctl::$driftctl"
 
 # Finally we run the scan command
 driftctl scan $qflag $INPUT_ARGS
