@@ -46,11 +46,8 @@ install_driftctl || log_error "Fail to install driftctl"
 qflag=""
 quiet_flag
 
-# Store driftctl scan in variable to be used by output
-driftctl=$(driftctl scan $qflag $INPUT_ARGS)
-
 # Set output to be used for other Github Actions jobs
-echo "::set-output name=driftctl::$driftctl"
+echo "::set-output name=driftctl::$(driftctl scan $qflag $INPUT_ARGS)"
 
 # Finally we run the scan command
 driftctl scan $qflag $INPUT_ARGS
