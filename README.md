@@ -31,6 +31,31 @@ jobs:
           version: 0.6.0
 ```
 
+## Example usage for scan job with Git comment
+
+```yml
+      - name: driftctl Scan Comment
+        uses: actions/github-script@v5.1.0
+        if: github.event_name == 'pull_request'
+        env:
+          DFCTL_SCAN: "#### driftctl Scan 🔎 ${{ steps.driftctl.outputs.driftctl }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### driftctl Scan 🔎\`${{ steps.driftctl.outcome }}\`
+            <details><summary>Show Scan</summary>
+            \n
+            ${process.env.DFCTL_SCAN}
+            \n
+            </details>`;
+              github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+```
+
 ### How to Contribute
 
 Should you wish to make a contribution please open a pull request against this repository with a clear description of the change with tests demonstrating the functionality.
