@@ -47,13 +47,13 @@ qflag=""
 quiet_flag
 
 # Store scan output in variable 
-SCANOUTPUT="$(driftctl scan $qflag $INPUT_ARGS)"
+scan_output="$(driftctl scan $qflag $INPUT_ARGS)"
 
 # Escape scan output to handle multilines
-SCANOUTPUT="${SCANOUTPUT//$'\n'/'%0A'}"
+scan_output="${SCAN_OUTPUT//$'\n'/'%0A'}"
 
 # Set output to be used for other Github Actions jobs
-echo "::set-output name=driftctl::$SCANOUTPUT"
+echo "::set-output name=driftctl::$SCAN_OUTPUT"
 
 # Finally we run the scan command
 driftctl scan $qflag $INPUT_ARGS
