@@ -49,12 +49,15 @@ quiet_flag
 # Store scan output in variable 
 scan_output="$(driftctl scan $qflag $INPUT_ARGS)"
 
+# echo scan output to be consumed through Github Actions runner console
+echo -e "$scan_output"
+
 # Escape scan output to handle multilines
-scan_output="${SCAN_OUTPUT//$'\n'/'%0A'}"
+scan_output="${scan_output//$'\n'/'%0A'}"
 
 # Set output to be used for other Github Actions jobs
-echo "::set-output name=driftctl::$SCAN_OUTPUT"
+echo "::set-output name=driftctl::$scan_output"
 
-# Finally we run the scan command
-driftctl scan $qflag $INPUT_ARGS
+
+
 
