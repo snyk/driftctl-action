@@ -61,20 +61,19 @@ scan_output=$(scan_output)
 # Store exit code from scan command run in scan function
 scan_exit=$?
 
-# Check exit code, fail job if scan command exit code 2, then format scan output for GitHub comment
+# Check scan ﬁexit code, fail job if exit code is 1 or 2, then format scan output for GitHub comment
 scan_exit_code(){
-  if [ "$scan_exit" -eq 2 ]; then
+  if [[ "$scan_exit" -eq 1 || "$scan_exit" -eq 2 ]]; then
     echo -e "$scan_output"
     scan_output="${scan_output//$'\n'/'%0A'}"
+    echo "::set-output name=driftctl::$scan_output"
     exit 1
   else
     echo -e "$scan_output"
     scan_output="${scan_output//$'\n'/'%0A'}"
+    echo "::set-output name=driftctl::$scan_output"
   fi
 }
 
 # Run exit code function 
 scan_exit_code
-
-# Set output to be used for other Github Actions jobs
-echo "::set-output name=driftctl::$scan_output"
