@@ -35,7 +35,7 @@ jobs:
 
 ```yml
       - name: driftctl Scan Comment
-        uses: actions/github-script@v5.1.0
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
           DFCTL_SCAN: "#### driftctl Scan 🔎 ${{ steps.driftctl.outputs.driftctl }}"
@@ -55,6 +55,10 @@ jobs:
               body: output
             })
 ```
+
+## Optional job syntax
+
+- [continue-on-error](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error): Adding this to your job will ensure that the drfitctl GitHub Action continues when drift is detected or any other error occurs. This is useful when using adding the driftctl Scan output to a GitHub comment.
 
 ### How to Contribute
 
