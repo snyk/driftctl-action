@@ -33,6 +33,8 @@ jobs:
 
 ## Example usage for scan job with Git comment
 
+> **❗Important❗** `continue-on-error` needs to be set as true so the comment job can complete
+
 ```yml
   driftctl:
     runs-on: ubuntu-latest
@@ -48,7 +50,7 @@ jobs:
         uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
-          DFCTL_SCAN: "#### driftctl Scan 🔎 ${{ steps.driftctl.outputs.driftctl }}"
+          DFCTL_SCAN: "#### driftctl Scan 🔎 ${{ steps.driftctl.outputs.SCAN_OUTPUT }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
