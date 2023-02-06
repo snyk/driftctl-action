@@ -7,13 +7,22 @@ log_error() {
 
 install_driftctl() {
   echo "Installing dctlenv"
-  git clone --depth 1 --branch v0.1.8 https://github.com/wbeuil/dctlenv ~/.dctlenv
+  git clone --depth 1 --branch v0.1.9 https://github.com/wbeuil/dctlenv ~/.dctlenv
   export PATH="$HOME/.dctlenv/bin:$PATH"
 
-  gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xACC776A79C824EBD
+  # Since CircleCI breach on 05/01/23, driftctl changed its signing key
+  # which means the PGP signature will be different for versions below 0.38.1
+  driftctl_key="65DDA08AA1605FC8211FC928FFB5FCAFD223D274"
+  if version_le "${version/v/}" "0.38.1"; then
+    driftctl_key="277666005A7F01D484F6376DACC776A79C824EBD"
+  fi
 
+  gpg --keyserver hkps://keys.openpgp.org --recv-keys $driftctl_key
+
+  # Better debug logs
   echo "Downloading driftctl:$version"
-  DCTLENV_CURL=1 dctlenv use $version
+  DCTLENV_CURL=1 dctlenv install $version
+  dctlenv use $version
 }
 
 parse_inputs() {
