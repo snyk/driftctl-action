@@ -28,7 +28,7 @@ jobs:
       - name: Run driftctl
         uses: snyk/driftctl-action@v1
         with:
-          version: 0.6.0
+          version: 0.38.2
 ```
 
 ### How to Contribute
