@@ -33,6 +33,43 @@ jobs:
           version: 0.38.2
 ```
 
+## Example usage for scan job with Git comment
+
+> **❗Important❗** `continue-on-error` needs to be set as true so the comment job can complete
+
+```yml
+  driftctl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3    
+      - name: driftctl Scan
+        id: driftctl
+        uses: driftctl-action@v1.2.1
+        continue-on-error: true
+        
+      - name: driftctl Scan Comment
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          DFCTL_SCAN: "#### driftctl Scan 🔎 ${{ steps.driftctl.outputs.SCAN_OUTPUT }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### driftctl Scan 🔎\`${{ steps.driftctl.outcome }}\`
+            <details><summary>Show Scan</summary>
+            \n
+            ${process.env.DFCTL_SCAN}
+            \n
+            </details>`;
+              github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+```
+
 ### How to Contribute
 
 Should you wish to make a contribution please open a pull request against this repository with a clear description of the change with tests demonstrating the functionality.
