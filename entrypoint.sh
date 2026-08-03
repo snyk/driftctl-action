@@ -55,5 +55,8 @@ install_driftctl || log_error "Fail to install driftctl"
 qflag=""
 quiet_flag
 
+# Set umask so report created is readable to others
+umask 0022
+
 # Finally we run the scan command
 driftctl scan $qflag $INPUT_ARGS
