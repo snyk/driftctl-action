@@ -55,5 +55,35 @@ install_driftctl || log_error "Fail to install driftctl"
 qflag=""
 quiet_flag
 
-# Finally we run the scan command
-driftctl scan $qflag $INPUT_ARGS
+# Run scan, store exit code, format output, output scan in runner and return exit code
+scan_output(){
+  scan_output="$(driftctl scan $qflag $INPUT_ARGS;return)"
+  scan_exit=$?
+  scan_output="${scan_output//$'\r'/'%0D'}"
+  echo -e "$scan_output"
+  return $scan_exit
+}
+
+# Run scan function and store in variable
+scan_output=$(scan_output)
+
+# Store exit code from scan command run in scan function
+scan_exit=$?
+
+#Check exit code, echo scan, add delimiter, output to $GITHUB_OUTPUT, and fail job if scan exit code 1 or 2
+scan_exit_code(){
+  if [ $1 -eq 1 ]; then
+    echo -e "$scan_output"
+    echo 'SCAN_OUTPUT<<EOF' >> $GITHUB_OUTPUT
+    echo -e "$scan_output" >> $GITHUB_OUTPUT
+    echo 'EOF' >> $GITHUB_OUTPUT
+    exit $1
+  elif [ $1 -eq 2 ]; then
+    exit 1
+  else
+    exit $1
+  fi
+}
+
+# Run exit code function 
+scan_exit_code $scan_exit
